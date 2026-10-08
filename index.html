@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Rentas">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAWfmNhQlgAABZ+anVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAFlhqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjY2ZGFhOWU5LTZlYTEtNDFkNS05NmJlLTAwODc4NGE0ZTZmZAAAAAOTanVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAAuGp1bWIAAABEanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5pbmdyZWRpZW50LnYzAAAAABhjMnNo0/q5nOlvuOwVlDZzKw60mwAAAGxjYm9yo2lkYzpmb3JtYXRpaW1hZ2UvcG5namluc3RhbmNlSUR4LHhtcDppaWQ6NDYyN2Y4ZWQtMDE0ZS00ODEzLWFmM2YtMTI5YzliMGFkYjU4bHJlbGF0aW9uc2hpcGhwYXJlbnRPZgAAAeJqdW1iAAAAQWp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuYWN0aW9ucy52MgAAAAAYYzJzaDbkClop/Pw16ioTfv5ATcAAAAGZY2JvcqJnYWN0aW9uc4KiZmFjdGlvbmtjMnBhLm9wZW5lZGpwYXJhbWV0ZXJzoWtpbmdyZWRpZW50c4GiY3VybHgtc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5pbmdyZWRpZW50LnYzZGhhc2hYIPYsG0eRAID7HqA16N0ONriTMX5T7SlI88FyuENrRbRFpGZhY3Rpb254HWNvbS5hbnRocm9waWMuY2xhdWRlLnByb3ZpZGVkanBhcmFtZXRlcnOheB9jb20uYW50aHJvcGljLm9yaWdpbi1jb25maWRlbmNlZ3Vua25vd25rZGVzY3JpcHRpb254ZkNsYXVkZSBwcm92aWRlZCB0aGlzIGZpbGUgYXQgdGhlIHJlcXVlc3Qgb2YgYSB1c2VyIGFuZCBtYXkgaGF2ZSBjcmVhdGVkIG9yIG1vZGlmaWVkIHRoZSBmaWxlIGNvbnRlbnRzLm1zb2Z0d2FyZUFnZW50oWRuYW1lZkNsYXVkZXJhbGxBY3Rpb25zSW5jbHVkZWT1AAAAyGp1bWIAAABAanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5oYXNoLmRhdGEAAAAAGGMyc2innv+J0KN2g7lXbVRFywZFAAAAgGNib3KlY2FsZ2ZzaGEyNTZjcGFkTQAAAAAAAAAAAAAAAABkaGFzaFgg9LMzhgtMY4rjK9HSb/sVZs9NtXAjp5qE1HZGV0+ZDtJkbmFtZW5qdW1iZiBtYW5pZmVzdGpleGNsdXNpb25zgaJlc3RhcnQYIWZsZW5ndGgZFooAAAI+anVtYgAAACdqdW1kYzJjbAARABCAAACqADibcQNjMnBhLmNsYWltLnYyAAAAAg9jYm9ypWNhbGdmc2hhMjU2aXNpZ25hdHVyZXhNc2VsZiNqdW1iZj0vYzJwYS91cm46YzJwYTo2NmRhYTllOS02ZWExLTQxZDUtOTZiZS0wMDg3ODRhNGU2ZmQvYzJwYS5zaWduYXR1cmVqaW5zdGFuY2VJRHgseG1wOmlpZDo3ZjNjZDE3Yi05OTliLTQ2NTAtOTg2Yi1hYmY3MmFlZjFmYjJyY3JlYXRlZF9hc3NlcnRpb25zg6JjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg9iwbR5EAgPseoDXo3Q42uJMxflPtKUjzwXK4Q2tFtEWiY3VybHgqc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5hY3Rpb25zLnYyZGhhc2hYIEPG23DBnCpIDVAT70ZRWVtBp74Bjrk9Q2sUaON7MMakomN1cmx4KXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaGFzaC5kYXRhZGhhc2hYIKYUqGcN6LuDr/u43gYO+AAOpRRP+IIpqZDjajFRXp3QdGNsYWltX2dlbmVyYXRvcl9pbmZvo2RuYW1lb0FudGhyb3BpYyBGaWxlc2d2ZXJzaW9uZTEuMC4wa3NwZWNWZXJzaW9uZTIuNC4wAAAQOGp1bWIAAAAoanVtZGMyY3MAEQAQgAAAqgA4m3EDYzJwYS5zaWduYXR1cmUAAAAQCGNib3LShFkCEqIBJhghWQIKMIICBjCCAY2gAwIBAgIUQOWgCu7COdC+uIP6BkIFPWdVEwAwCgYIKoZIzj0EAwMwSTEXMBUGA1UEChMOQW50aHJvcGljLCBQQkMxLjAsBgNVBAMTJUFudGhyb3BpYyBDb250ZW50IENyZWRlbnRpYWxzIFJvb3QgQ0EwHhcNMjYwODA3MTg0MzU2WhcNMjgwODA2MTk0MzU2WjBEMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEpMCcGA1UEAxMgQW50aHJvcGljIENsYXVkZSBDb250ZW50IFNpZ25pbmcwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASYegpry1AYBRTVNL1CpTlbROnY3dey+UrsF9C3phYrATN3ZHf93Mo8RQN0KOUuOn19P4oWNFWe5n2/She9N7eTo1gwVjAOBgNVHQ8BAf8EBAMCB4AwFQYDVR0lBA4wDAYKKwYBBAGD6F4CATAMBgNVHRMBAf8EAjAAMB8GA1UdIwQYMBaAFM5R4gSBTmRbI/jjxM+aPpzB11zCMAoGCCqGSM49BAMDA2cAMGQCMDFzHRSeAXrSy1WOzkbhPZ6Km2wGTmZ/2gK18k8BQGXyqz88Rdrz6CTX9flAnYNVxgIwcF9c3fVhqmJKpi+UhasNUMko69cyX6STPfta3Q8EjyzDjzoyrol46FP6VFHhvUcJoWNwYWRZDZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2WEDwaRubmQ0nuB4TRvQrEjvt72GuUNOszkf/HBldqLqgz3hVGdmSzR69izEyLnZ391XXTAtI0tYNm6mbAeSVCAGSeubXFwAAAxxJREFUeJzt3UF2U0cQQFE5a2BudghLYYmZk0UwcA4khOcIW9Kv/n3vBlRd9Y6OZnp6/vT1Ar/yx9EDMJc4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOIgiYMkDpI4SOL4lz+/fDh6hEHE8cNLGfr4Thx/+2cT+nghjsvlVzXo4yKOS3egj93jeL2AzfvYOo5rbr9zH/vGcf3Vt+1j0zh+99579rFjHG+79IZ9bBfHe268Wx97xfH+627Vx0Zx3Oqu+/SxSxy3vegmfWwRxz1uuUMf54/jflc8fR8nj+Pe9zt3H2eO4zGXO3Efp43jkTc7ax/njOPx1zplHyeM46g7na+Ps8Vx7IVO1sep4phwmwkz3Mp54phzlTmTvNNJ4ph2j2nzvM0Z4ph5iZlT/Zbl45h8g8mzXWPtOOZvf/6Er1g4jlX2vsqc/7VqHGttfK1pv1syjhV3veLM68Wx4pZfLDf5YnEst9+frDX/SnGstdmy0CuWiWOhnf6vVd6yRhyrbPN6S7xogTiW2OMbzH/X9Djmb/A9hr9udBzDd3cTk984N47JW7utsS8dGsfYfd3JzPdOjGPmpu5t4KvHxTFwRw8z7e2z4pi2nccbtYFBcYzay4Hm7GFKHHM2MsGQbYyIY8guRpmwk+PjmLCFmQ7fzMFxHP7+4Y7dz5FxKOMaB27psDiUcb2jdvX0/OnrIR/8ug3T+fj5r6NH+NnxP0gZSxwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRwkcZDEQRIHSRykoX8dygS+OUjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIImDJA6SOEjiIH0DKbWh5VE3edwAAAAASUVORK5CYII=">
+<title>Rentas</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font:20px/1.4 -apple-system,system-ui,sans-serif;background:#f4f4f2;color:#222;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:28px;margin:8px 0 16px}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:18px;font-size:20px;font-weight:700;background:#1f6feb;color:#fff;margin:10px 0}
+.btn.ok{background:#1a9b4b}.btn.gris{background:#ddd;color:#222}
+.card{background:#fff;border-radius:14px;padding:16px;margin:10px 0;border-left:10px solid #ccc}
+.card.rojo{border-color:#d93025}.card.amarillo{border-color:#f5b400}.card.verde{border-color:#1a9b4b}
+.n{font-size:24px;font-weight:700}.sub{color:#666;font-size:17px}
+input{width:100%;font-size:20px;padding:14px;margin:6px 0;border:1px solid #bbb;border-radius:12px}
+.res{display:flex;gap:8px}.res div{flex:1;background:#fff;border-radius:14px;padding:12px;text-align:center}
+</style></head><body><main id="app"></main>
+<script>
+// ⚠️ Pega aquí los datos de tu proyecto Supabase (Settings > API)
+const SUPABASE_URL='https://lwhukwhjxyzgcpnfulwc.supabase.co', SUPABASE_KEY='sb_publishable_DV9O6nsBv1TYhI0k9w28XA_f8_SDwhS';
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=document.getElementById('app'), mxn=n=>Number(n).toLocaleString('es-MX',{style:'currency',currency:'MXN'});
+const hoy=()=>new Date().toLocaleDateString('en-CA');
+let yo=null, filas=[];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const estado=o=>o.pagada?'verde':o.vence<hoy()?'rojo':o.vence===hoy()?'amarillo':(o.vence<=suma(7)?'amarillo':'');
+function suma(d){const x=new Date();x.setDate(x.getDate()+d);return x.toLocaleDateString('en-CA')}
+const fecha=f=>new Date(f+'T12:00').toLocaleDateString('es-MX',{day:'numeric',month:'long'});
+
+async function init(){
+  const {data:{session}}=await db.auth.getSession();
+  if(!session) return login();
+  const {data}=await db.from('users').select('*').eq('id',session.user.id).single();
+  yo=data; if(yo?.rol==='admin') await db.rpc('generar_obligaciones',{meses:12});
+  inicio();
+}
+function login(msg=''){ $.innerHTML=`<h1>Rentas</h1><p>${msg}</p>
+<input id="e" type="email" placeholder="Correo" autocapitalize="off"><input id="p" type="password" placeholder="Contraseña">
+<button class="btn" onclick="entrar()">ENTRAR</button>`}
+async function entrar(){const {error}=await db.auth.signInWithPassword({email:e.value,password:p.value});
+  error?login('Correo o contraseña incorrectos'):init()}
+async function cargar(){
+  const {data,error}=await db.from('rental_obligations')
+    .select('id,periodo,vence,monto,pagada,tenants(nombre,telefono,units(nombre,properties(nombre)))')
+    .order('vence'); if(error) alert(error.message); filas=data||[]}
+async function inicio(){
+  await cargar(); const h=hoy(), mes=h.slice(0,7);
+  const venc=filas.filter(o=>!o.pagada&&o.vence<h), vh=filas.filter(o=>!o.pagada&&o.vence===h),
+        prox=filas.filter(o=>!o.pagada&&o.vence>h&&o.vence<=suma(7)),
+        cob=filas.filter(o=>o.pagada&&o.periodo.slice(0,7)===mes),
+        pend=filas.filter(o=>!o.pagada&&o.vence<=suma(30)).reduce((s,o)=>s+ +o.monto,0),
+        cobT=cob.reduce((s,o)=>s+ +o.monto,0);
+  const sal=new Date().getHours()<12?'BUENOS DÍAS':new Date().getHours()<19?'BUENAS TARDES':'BUENAS NOCHES';
+  $.innerHTML=`<h1>${sal}</h1>
+  <div class="card rojo"><span class="n">🔴 Vencidas: ${venc.length}</span></div>
+  <div class="card amarillo"><span class="n">🟡 Vencen hoy: ${vh.length}</span><div class="sub">Próximas (7 días): ${prox.length}</div></div>
+  <div class="card verde"><span class="n">🟢 Pagadas este mes: ${cob.length}</span></div>
+  ${yo.rol!=='consulta'||true?`<div class="sub">Por cobrar (próx. 30 días y vencidas): <b>${mxn(pend)}</b><br>Cobrado este mes: <b>${mxn(cobT)}</b></div>`:''}
+  <button class="btn" onclick="lista('hoy')">VER RENTAS DE HOY</button>
+  <button class="btn" onclick="lista('vencidas')">VER VENCIDAS</button>
+  <button class="btn" onclick="lista('todas')">TODAS LAS RENTAS</button>
+  <button class="btn gris" onclick="inquilinos()">INQUILINOS</button>
+  <button class="btn gris" onclick="db.auth.signOut().then(init)">Salir</button>`}
+function tarjeta(o){const t=o.tenants,e=estado(o),puede=yo.rol!=='consulta';
+  return `<div class="card ${e}"><div class="n">${esc(t.nombre)}</div>
+  <div class="sub">${esc(t.units.properties.nombre)} · ${esc(t.units.nombre)}</div>
+  <div class="n">${mxn(o.monto)}</div><div class="sub">Vence: ${fecha(o.vence)} · ${o.pagada?'PAGADA':e==='rojo'?'VENCIDA':'PENDIENTE'}</div>
+  ${!o.pagada&&puede?`<button class="btn ok" onclick="pagar('${o.id}','${esc(t.nombre)}')">✓ MARCAR COMO PAGADA</button>`:''}</div>`}
+function lista(f){const h=hoy();
+  const l=filas.filter(o=>f==='hoy'?(!o.pagada&&o.vence<=h)||(!o.pagada&&o.vence<=suma(3)):f==='vencidas'?!o.pagada&&o.vence<h:!o.pagada);
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>${{hoy:'Rentas de hoy',vencidas:'Vencidas',todas:'Pendientes'}[f]}</h1>`+(l.map(tarjeta).join('')||'<p>No hay rentas aquí 🎉</p>')}
+async function pagar(id,n){if(!confirm('¿Marcar como pagada la renta de '+n+'?'))return;
+  const {error}=await db.rpc('marcar_pagada',{p_obligation:id}); if(error)return alert(error.message); await cargar(); inicio()}
+async function inquilinos(){
+  const {data}=await db.from('tenants').select('id,nombre,telefono,monto,dia_pago,activo,units(nombre,properties(nombre))').order('nombre');
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1>`+(data||[]).map(t=>
+   `<div class="card"><div class="n">${esc(t.nombre)}</div><div class="sub">${esc(t.units.properties.nombre)} · ${esc(t.units.nombre)}<br>${mxn(t.monto)} · paga el día ${t.dia_pago}${t.activo?'':' · INACTIVO'}</div>
+   ${t.telefono?`<a class="btn gris" style="text-decoration:none;text-align:center" href="tel:${esc(t.telefono)}">📞 Llamar</a>`:''}</div>`).join('')}
+init();
+</script></body></html>
