@@ -70,7 +70,7 @@ let busca='', actual=[], todosInq=[];
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 function wa(o){const t=o.tenants;let d=String(t.telefono||'').replace(/\D/g,'');
   if(d.length===10)d='52'+d; if(d.length<11)return '';
-  const m=`Hola ${t.nombre}, te recuerdo que la renta de ${t.units.properties.nombre} ${t.units.nombre} por ${mxn(o.monto)} ${o.vence<hoy()?'venció':'vence'} el ${fecha(o.vence)}. Gracias.`;
+  const m='Buen día, le escribo para recordarle el pago de la renta, muchas gracias';
   return `<a class="btn" style="background:#25d366;text-decoration:none;text-align:center" href="https://wa.me/${d}?text=${encodeURIComponent(m)}">💬 AVISAR POR WHATSAPP</a>`}
 function tarjeta(o){const t=o.tenants,e=estado(o),puede=yo.rol!=='consulta';
   return `<div class="card ${e}"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div>
