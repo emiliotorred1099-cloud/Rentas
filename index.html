@@ -17,6 +17,7 @@ main{max-width:640px;margin:0 auto;padding:16px}h1{font-size:28px;margin:8px 0 1
 .n{font-size:24px;font-weight:700}.sub{color:#666;font-size:17px}
 input{width:100%;font-size:20px;padding:14px;margin:6px 0;border:1px solid #bbb;border-radius:12px}
 .res{display:flex;gap:8px}.res div{flex:1;background:#fff;border-radius:14px;padding:12px;text-align:center}
+label{display:block;margin-top:10px;font-size:17px;color:#555}
 </style></head><body><main id="app"></main>
 <script>
 // ⚠️ Pega aquí los datos de tu proyecto Supabase (Settings > API)
@@ -24,7 +25,7 @@ const SUPABASE_URL='https://lwhukwhjxyzgcpnfulwc.supabase.co', SUPABASE_KEY='sb_
 const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const $=document.getElementById('app'), mxn=n=>Number(n).toLocaleString('es-MX',{style:'currency',currency:'MXN'});
 const hoy=()=>new Date().toLocaleDateString('en-CA');
-let yo=null, filas=[];
+let yo=null, filas=[], vista=null;
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const estado=o=>o.pagada?'verde':o.vence<hoy()?'rojo':o.vence===hoy()?'amarillo':(o.vence<=suma(7)?'amarillo':'');
 function suma(d){const x=new Date();x.setDate(x.getDate()+d);return x.toLocaleDateString('en-CA')}
@@ -47,7 +48,7 @@ async function cargar(){
     .select('id,periodo,vence,monto,pagada,tenants(nombre,telefono,units(nombre,properties(nombre)))')
     .order('vence'); if(error) alert(error.message); filas=data||[]}
 async function inicio(){
-  await cargar(); const h=hoy(), mes=h.slice(0,7);
+  vista=null; busca=''; await cargar(); const h=hoy(), mes=h.slice(0,7);
   const venc=filas.filter(o=>!o.pagada&&o.vence<h), vh=filas.filter(o=>!o.pagada&&o.vence===h),
         prox=filas.filter(o=>!o.pagada&&o.vence>h&&o.vence<=suma(7)),
         cob=filas.filter(o=>o.pagada&&o.periodo.slice(0,7)===mes),
@@ -61,23 +62,60 @@ async function inicio(){
   ${yo.rol!=='consulta'||true?`<div class="sub">Por cobrar (próx. 30 días y vencidas): <b>${mxn(pend)}</b><br>Cobrado este mes: <b>${mxn(cobT)}</b></div>`:''}
   <button class="btn" onclick="lista('hoy')">VER RENTAS DE HOY</button>
   <button class="btn" onclick="lista('vencidas')">VER VENCIDAS</button>
+  <button class="btn ok" onclick="lista('pagadas')">VER PAGADAS ESTE MES</button>
   <button class="btn" onclick="lista('todas')">TODAS LAS RENTAS</button>
   <button class="btn gris" onclick="inquilinos()">INQUILINOS</button>
   <button class="btn gris" onclick="db.auth.signOut().then(init)">Salir</button>`}
+let busca='', actual=[], todosInq=[];
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+function wa(o){const t=o.tenants;let d=String(t.telefono||'').replace(/\D/g,'');
+  if(d.length===10)d='52'+d; if(d.length<11)return '';
+  const m=`Hola ${t.nombre}, te recuerdo que la renta de ${t.units.properties.nombre} ${t.units.nombre} por ${mxn(o.monto)} ${o.vence<hoy()?'venció':'vence'} el ${fecha(o.vence)}. Gracias.`;
+  return `<a class="btn" style="background:#25d366;text-decoration:none;text-align:center" href="https://wa.me/${d}?text=${encodeURIComponent(m)}">💬 AVISAR POR WHATSAPP</a>`}
 function tarjeta(o){const t=o.tenants,e=estado(o),puede=yo.rol!=='consulta';
   return `<div class="card ${e}"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div>
   <div class="sub">${esc(t.nombre)}</div>
   <div class="n">${mxn(o.monto)}</div><div class="sub">Vence: ${fecha(o.vence)} · ${o.pagada?'PAGADA':e==='rojo'?'VENCIDA':'PENDIENTE'}</div>
-  ${!o.pagada&&puede?`<button class="btn ok" onclick="pagar('${o.id}','${esc(t.nombre)}')">✓ MARCAR COMO PAGADA</button>`:''}</div>`}
-function lista(f){const h=hoy();
-  const l=filas.filter(o=>f==='hoy'?(!o.pagada&&o.vence<=h)||(!o.pagada&&o.vence<=suma(3)):f==='vencidas'?!o.pagada&&o.vence<h:!o.pagada);
-  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>${{hoy:'Rentas de hoy',vencidas:'Vencidas',todas:'Pendientes'}[f]}</h1>`+(l.map(tarjeta).join('')||'<p>No hay rentas aquí 🎉</p>')}
+  ${!o.pagada&&puede?`<button class="btn ok" onclick="pagar('${o.id}','${esc(t.nombre)}')">✓ MARCAR COMO PAGADA</button>`:''}
+  ${!o.pagada&&puede&&o.vence<=hoy()?wa(o):''}
+  ${o.pagada&&yo.rol==='admin'?`<button class="btn gris" onclick="deshacer('${o.id}','${esc(t.nombre)}')">↩ DESHACER PAGO</button>`:''}</div>`}
+function lista(f){vista=f;const h=hoy();
+  actual=filas.filter(o=>f==='hoy'?(!o.pagada&&o.vence<=h)||(!o.pagada&&o.vence<=suma(3)):f==='vencidas'?!o.pagada&&o.vence<h:f==='pagadas'?o.pagada&&o.periodo.slice(0,7)===h.slice(0,7):!o.pagada);
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>${{hoy:'Rentas de hoy',vencidas:'Vencidas',todas:'Pendientes',pagadas:'Pagadas este mes'}[f]}</h1><input id="q" placeholder="🔍 Buscar edificio o inquilino" value="${esc(busca)}" oninput="busca=this.value;pintar()"><div id="res"></div>`;pintar()}
+function pintar(){const q=norm(busca);
+  res.innerHTML=actual.filter(o=>!q||norm(o.tenants.units.properties.nombre+' '+o.tenants.units.nombre+' '+o.tenants.nombre).includes(q)).map(tarjeta).join('')||'<p>No hay rentas aquí 🎉</p>'}
+async function deshacer(id,n){if(!confirm('¿Deshacer el pago de '+n+'? Volverá a quedar pendiente.'))return;
+  let r=await db.from('payments').delete().eq('obligation_id',id); if(r.error)return alert(r.error.message);
+  r=await db.from('rental_obligations').update({pagada:false}).eq('id',id); if(r.error)return alert(r.error.message);
+  const y=scrollY; await cargar(); vista?lista(vista):inicio(); scrollTo(0,y)}
 async function pagar(id,n){if(!confirm('¿Marcar como pagada la renta de '+n+'?'))return;
-  const {error}=await db.rpc('marcar_pagada',{p_obligation:id}); if(error)return alert(error.message); await cargar(); inicio()}
+  const {error}=await db.rpc('marcar_pagada',{p_obligation:id}); if(error)return alert(error.message); const y=scrollY; await cargar(); vista?lista(vista):inicio(); scrollTo(0,y)}
 async function inquilinos(){
-  const {data}=await db.from('tenants').select('id,nombre,telefono,monto,dia_pago,activo,units(nombre,properties(nombre))').order('nombre');
-  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1>`+(data||[]).map(t=>
+  const {data}=await db.from('tenants').select('id,nombre,telefono,monto,dia_pago,activo,units(nombre,properties(nombre))');
+  todosInq=(data||[]).sort((a,b)=>(a.units.properties.nombre+' '+a.units.nombre).localeCompare(b.units.properties.nombre+' '+b.units.nombre,'es',{numeric:true}));busca='';
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1><input id="q" placeholder="🔍 Buscar edificio o inquilino" oninput="busca=this.value;pintarInq()"><div id="res"></div>`;pintarInq()}
+function pintarInq(){const q=norm(busca);
+  res.innerHTML=todosInq.filter(t=>!q||norm(t.units.properties.nombre+' '+t.units.nombre+' '+t.nombre).includes(q)).map(t=>
    `<div class="card"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div><div class="sub">${esc(t.nombre)}<br>${mxn(t.monto)} · paga el día ${t.dia_pago}${t.activo?'':' · INACTIVO'}</div>
-   ${t.telefono?`<a class="btn gris" style="text-decoration:none;text-align:center" href="tel:${esc(t.telefono)}">📞 Llamar</a>`:''}</div>`).join('')}
+   ${yo.rol==='admin'?`<button class="btn" onclick="editar('${t.id}')">✏️ EDITAR</button>`:''}${t.telefono?`<a class="btn gris" style="text-decoration:none;text-align:center" href="tel:${esc(t.telefono)}">📞 Llamar</a>`:''}</div>`).join('')}
+
+async function editar(id){
+  const {data:t}=await db.from('tenants').select('*,units(nombre,properties(nombre))').eq('id',id).single();
+  $.innerHTML=`<button class="btn gris" onclick="inquilinos()">← Cancelar</button><h1>${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</h1>
+  <label>Nombre del inquilino</label><input id="f_n" value="${esc(t.nombre)}">
+  <label>Teléfono</label><input id="f_t" type="tel" value="${esc(t.telefono)}">
+  <label>Renta mensual (MXN)</label><input id="f_m" type="number" inputmode="decimal" value="${t.monto}">
+  <label>Día del mes en que paga (1 a 31)</label><input id="f_d" type="number" inputmode="numeric" value="${t.dia_pago}">
+  <button class="btn ok" onclick="guardar('${t.id}')">GUARDAR</button>`}
+async function guardar(id){
+  const dia=parseInt(f_d.value), monto=parseFloat(f_m.value);
+  if(!(dia>=1&&dia<=31)||isNaN(monto)||monto<0) return alert('Revisa el día (1 a 31) y el monto');
+  let r=await db.from('tenants').update({nombre:f_n.value.trim(),telefono:f_t.value.trim()||null,monto,dia_pago:dia}).eq('id',id);
+  if(r.error) return alert(r.error.message);
+  const {data:ob}=await db.from('rental_obligations').select('id,tenant_id,periodo').eq('tenant_id',id).eq('pagada',false);
+  const rows=(ob||[]).map(o=>{const [y,m]=o.periodo.split('-').map(Number);const d=Math.min(dia,new Date(y,m,0).getDate());
+    return {id:o.id,tenant_id:o.tenant_id,periodo:o.periodo,vence:`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`,monto,pagada:false}});
+  if(rows.length){r=await db.from('rental_obligations').upsert(rows); if(r.error) return alert(r.error.message)}
+  await cargar(); inquilinos()}
 init();
 </script></body></html>
