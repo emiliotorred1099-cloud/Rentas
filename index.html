@@ -65,6 +65,7 @@ async function inicio(){
   <button class="btn ok" onclick="lista('pagadas')">VER PAGADAS ESTE MES</button>
   <button class="btn" onclick="lista('todas')">TODAS LAS RENTAS</button>
   <button class="btn gris" onclick="inquilinos()">INQUILINOS</button>
+  ${yo.rol==='admin'?`<button class="btn gris" onclick="edificios()">🏢 EDIFICIOS Y DEPARTAMENTOS</button>`:''}
   <button class="btn gris" onclick="db.auth.signOut().then(init)">Salir</button>`}
 let busca='', actual=[], todosInq=[];
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -93,7 +94,7 @@ async function pagar(id,n){if(!confirm('¿Marcar como pagada la renta de '+n+'?'
 async function inquilinos(){
   const {data}=await db.from('tenants').select('id,nombre,telefono,monto,dia_pago,activo,units(nombre,properties(nombre))');
   todosInq=(data||[]).sort((a,b)=>(a.units.properties.nombre+' '+a.units.nombre).localeCompare(b.units.properties.nombre+' '+b.units.nombre,'es',{numeric:true}));busca='';
-  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1><input id="q" placeholder="🔍 Buscar edificio o inquilino" oninput="busca=this.value;pintarInq()"><div id="res"></div>`;pintarInq()}
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1>${yo.rol==='admin'?`<button class="btn ok" onclick="nuevoInq()">➕ AGREGAR INQUILINO</button>`:''}<input id="q" placeholder="🔍 Buscar edificio o inquilino" oninput="busca=this.value;pintarInq()"><div id="res"></div>`;pintarInq()}
 function pintarInq(){const q=norm(busca);
   res.innerHTML=todosInq.filter(t=>!q||norm(t.units.properties.nombre+' '+t.units.nombre+' '+t.nombre).includes(q)).map(t=>
    `<div class="card"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div><div class="sub">${esc(t.nombre)}<br>${mxn(t.monto)} · paga el día ${t.dia_pago}${t.activo?'':' · INACTIVO'}</div>
@@ -106,16 +107,64 @@ async function editar(id){
   <label>Teléfono</label><input id="f_t" type="tel" value="${esc(t.telefono)}">
   <label>Renta mensual (MXN)</label><input id="f_m" type="number" inputmode="decimal" value="${t.monto}">
   <label>Día del mes en que paga (1 a 31)</label><input id="f_d" type="number" inputmode="numeric" value="${t.dia_pago}">
+  <label>Estado</label><select id="f_a"><option value="1" ${t.activo?'selected':''}>Activo</option><option value="0" ${t.activo?'':'selected'}>Inactivo (ya no renta)</option></select>
   <button class="btn ok" onclick="guardar('${t.id}')">GUARDAR</button>`}
 async function guardar(id){
-  const dia=parseInt(f_d.value), monto=parseFloat(f_m.value);
+  const dia=parseInt(f_d.value), monto=parseFloat(f_m.value), activo=f_a.value==='1';
   if(!(dia>=1&&dia<=31)||isNaN(monto)||monto<0) return alert('Revisa el día (1 a 31) y el monto');
-  let r=await db.from('tenants').update({nombre:f_n.value.trim(),telefono:f_t.value.trim()||null,monto,dia_pago:dia}).eq('id',id);
+  let r=await db.from('tenants').update({nombre:f_n.value.trim(),telefono:f_t.value.trim()||null,monto,dia_pago:dia,activo}).eq('id',id);
   if(r.error) return alert(r.error.message);
+  if(!activo){r=await db.from('rental_obligations').delete().eq('tenant_id',id).eq('pagada',false); if(r.error) return alert(r.error.message); await cargar(); return inquilinos()}
   const {data:ob}=await db.from('rental_obligations').select('id,tenant_id,periodo').eq('tenant_id',id).eq('pagada',false);
   const rows=(ob||[]).map(o=>{const [y,m]=o.periodo.split('-').map(Number);const d=Math.min(dia,new Date(y,m,0).getDate());
     return {id:o.id,tenant_id:o.tenant_id,periodo:o.periodo,vence:`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`,monto,pagada:false}});
   if(rows.length){r=await db.from('rental_obligations').upsert(rows); if(r.error) return alert(r.error.message)}
-  await cargar(); inquilinos()}
+  await db.rpc('generar_obligaciones',{meses:12}); await cargar(); inquilinos()}
+
+const ordenar=a=>a.sort((x,y)=>x.nombre.localeCompare(y.nombre,'es',{numeric:true}));
+let pidActual=null;
+async function edificios(){
+  const {data}=await db.from('properties').select('id,nombre,units(id)');
+  $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Edificios</h1><button class="btn ok" onclick="nuevoEdificio()">➕ NUEVO EDIFICIO</button>`+ordenar(data||[]).map(p=>
+  `<div class="card"><div class="n">${esc(p.nombre)}</div><div class="sub">${p.units.length} departamentos</div>
+  <button class="btn" onclick="deptos('${p.id}')">VER DEPARTAMENTOS</button>
+  <button class="btn gris" onclick="renombrar('properties','${p.id}')">✏️ CAMBIAR NOMBRE</button></div>`).join('')}
+async function nuevoEdificio(){const n=(prompt('Nombre del nuevo edificio')||'').trim(); if(!n)return;
+  const {error}=await db.from('properties').insert({nombre:n}); if(error)return alert(error.message); edificios()}
+async function renombrar(tabla,id){
+  const {data}=await db.from(tabla).select('nombre').eq('id',id).single();
+  const n=(prompt('Nuevo nombre',data.nombre)||'').trim(); if(!n||n===data.nombre)return;
+  const {error}=await db.from(tabla).update({nombre:n}).eq('id',id); if(error)return alert(error.message);
+  await cargar(); tabla==='properties'?edificios():deptos(pidActual)}
+async function deptos(pid){pidActual=pid;
+  const {data:p}=await db.from('properties').select('nombre').eq('id',pid).single();
+  const {data:us}=await db.from('units').select('id,nombre,tenants(nombre,activo)').eq('property_id',pid);
+  $.innerHTML=`<button class="btn gris" onclick="edificios()">← Edificios</button><h1>${esc(p.nombre)}</h1><button class="btn ok" onclick="nuevoDepto('${pid}')">➕ NUEVO DEPARTAMENTO</button>`+ordenar(us||[]).map(u=>{const t=u.tenants.find(x=>x.activo);
+  return `<div class="card"><div class="n">${esc(u.nombre)}</div><div class="sub">${t?esc(t.nombre):'Sin inquilino activo'}</div>
+  <button class="btn gris" onclick="renombrar('units','${u.id}')">✏️ CAMBIAR NOMBRE</button></div>`}).join('')}
+async function nuevoDepto(pid){const n=(prompt('Nombre o número del departamento')||'').trim(); if(!n)return;
+  const {error}=await db.from('units').insert({property_id:pid,nombre:n}); if(error)return alert(error.message); deptos(pid)}
+async function nuevoInq(){
+  const {data:ps}=await db.from('properties').select('id,nombre');
+  $.innerHTML=`<button class="btn gris" onclick="inquilinos()">← Cancelar</button><h1>Nuevo inquilino</h1>
+  <label>Edificio</label><select id="n_p" onchange="cargaDeptos()">${ordenar(ps||[]).map(p=>`<option value="${p.id}">${esc(p.nombre)}</option>`).join('')}</select>
+  <label>Departamento</label><select id="n_u"></select>
+  <label>¿No está en la lista? Escribe un departamento nuevo</label><input id="n_nu" placeholder="Ej. 7">
+  <label>Nombre del inquilino</label><input id="n_n">
+  <label>Teléfono</label><input id="n_t" type="tel">
+  <label>Renta mensual (MXN)</label><input id="n_m" type="number" inputmode="decimal">
+  <label>Día del mes en que paga (1 a 31)</label><input id="n_d" type="number" inputmode="numeric">
+  <button class="btn ok" onclick="crearInq()">GUARDAR</button>`; cargaDeptos()}
+async function cargaDeptos(){
+  const {data:us}=await db.from('units').select('id,nombre').eq('property_id',n_p.value);
+  n_u.innerHTML=ordenar(us||[]).map(u=>`<option value="${u.id}">${esc(u.nombre)}</option>`).join('')||'<option value="">(sin departamentos)</option>'}
+async function crearInq(){
+  const dia=parseInt(n_d.value), monto=parseFloat(n_m.value), nombre=n_n.value.trim(), nu=n_nu.value.trim();
+  if(!nombre||!(dia>=1&&dia<=31)||isNaN(monto)||monto<0) return alert('Escribe el nombre, la renta y el día (1 a 31)');
+  let uid=n_u.value;
+  if(nu){const r=await db.from('units').insert({property_id:n_p.value,nombre:nu}).select('id').single(); if(r.error)return alert(r.error.message); uid=r.data.id}
+  if(!uid) return alert('Elige o escribe un departamento');
+  const r2=await db.from('tenants').insert({unit_id:uid,nombre,telefono:n_t.value.trim()||null,monto,dia_pago:dia}); if(r2.error)return alert(r2.error.message);
+  await db.rpc('generar_obligaciones',{meses:12}); await cargar(); inquilinos()}
 init();
 </script></body></html>
