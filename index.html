@@ -65,8 +65,8 @@ async function inicio(){
   <button class="btn gris" onclick="inquilinos()">INQUILINOS</button>
   <button class="btn gris" onclick="db.auth.signOut().then(init)">Salir</button>`}
 function tarjeta(o){const t=o.tenants,e=estado(o),puede=yo.rol!=='consulta';
-  return `<div class="card ${e}"><div class="n">${esc(t.nombre)}</div>
-  <div class="sub">${esc(t.units.properties.nombre)} · ${esc(t.units.nombre)}</div>
+  return `<div class="card ${e}"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div>
+  <div class="sub">${esc(t.nombre)}</div>
   <div class="n">${mxn(o.monto)}</div><div class="sub">Vence: ${fecha(o.vence)} · ${o.pagada?'PAGADA':e==='rojo'?'VENCIDA':'PENDIENTE'}</div>
   ${!o.pagada&&puede?`<button class="btn ok" onclick="pagar('${o.id}','${esc(t.nombre)}')">✓ MARCAR COMO PAGADA</button>`:''}</div>`}
 function lista(f){const h=hoy();
@@ -77,7 +77,7 @@ async function pagar(id,n){if(!confirm('¿Marcar como pagada la renta de '+n+'?'
 async function inquilinos(){
   const {data}=await db.from('tenants').select('id,nombre,telefono,monto,dia_pago,activo,units(nombre,properties(nombre))').order('nombre');
   $.innerHTML=`<button class="btn gris" onclick="inicio()">← Inicio</button><h1>Inquilinos</h1>`+(data||[]).map(t=>
-   `<div class="card"><div class="n">${esc(t.nombre)}</div><div class="sub">${esc(t.units.properties.nombre)} · ${esc(t.units.nombre)}<br>${mxn(t.monto)} · paga el día ${t.dia_pago}${t.activo?'':' · INACTIVO'}</div>
+   `<div class="card"><div class="n">${esc(t.units.properties.nombre)} ${esc(t.units.nombre)}</div><div class="sub">${esc(t.nombre)}<br>${mxn(t.monto)} · paga el día ${t.dia_pago}${t.activo?'':' · INACTIVO'}</div>
    ${t.telefono?`<a class="btn gris" style="text-decoration:none;text-align:center" href="tel:${esc(t.telefono)}">📞 Llamar</a>`:''}</div>`).join('')}
 init();
 </script></body></html>
